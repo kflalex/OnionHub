@@ -867,36 +867,49 @@
 		game:GetService("ReplicatedStorage"):WaitForChild("NetworkContainer"):WaitForChild("RemoteEvents"):WaitForChild("Box"):FireServer(unpack(args))
 	end)
 	
-	local MoneyAmount = nil
+local MoneyAmount = nil
 
-	local function formatRupiah(num)
-		num = tonumber(num) or 0
-		local formatted = tostring(num)
+local function formatRupiah(num)
+	num = tonumber(num) or 0
+	local formatted = tostring(num)
 
-		while true do
-			formatted, k = formatted:gsub("^(-?%d+)(%d%d%d)", "%1.%2")
-			if k == 0 then break end
-		end
-
-		return "Rp. "..formatted
+	while true do
+		formatted, k = formatted:gsub("^(-?%d+)(%d%d%d)", "%1.%2")
+		if k == 0 then break end
 	end
 
-	DangerZone:TextBoxString(
-		"Set Money (Server-Sided)",
-		"Enter Amount..",
-		function(text)
-			MoneyAmount = text
-		end
-	)	
+	return "Rp. "..formatted
+end
 
-	DangerZone:Button("Set Money", function()
-		print("bru")
+DangerZone:TextBoxString(
+	"Set Money (Server-Sided)",
+	"Enter Amount..",
+	function(text)
+		MoneyAmount = tonumber(text)
+	end
+)
 
-		game:GetService("Players").LocalPlayer
-			:WaitForChild("PlayerGui")
-			.Main.Container.Hub.CashFrame.Frame.TextLabel.Text = formatRupiah(MoneyAmount)
+DangerZone:Button("Set Money", function()
 
-	end)
+	if not MoneyAmount then
+		warn("Enter Amount..")
+		return
+	end
+
+	print(formatRupiah(MoneyAmount))
+
+	local player = game:GetService("Players").LocalPlayer
+	local label = player
+		:WaitForChild("PlayerGui")
+		:WaitForChild("Main")
+		:WaitForChild("Container")
+		:WaitForChild("Hub")
+		:WaitForChild("CashFrame")
+		:WaitForChild("Frame")
+		:WaitForChild("TextLabel")
+
+	label.Text = formatRupiah(MoneyAmount)
+end)
 	
 
 	-- main buttons
