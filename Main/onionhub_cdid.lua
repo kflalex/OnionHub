@@ -752,7 +752,7 @@
 
 	-- Main Script
 
-	if mapName == "Lobby" then
+	if mapName == "Lobby" or mapName == "Unknown Map" then
 		Onion:Notify("❌ Failed Loading Script","Please Join a Map To Load Onion Hub 🔒",5)
 		wait(5)
 		return
@@ -894,7 +894,7 @@ DangerZone:Button("Set Money", function()
 		:WaitForChild("Frame")
 		:WaitForChild("TextLabel")
 
-	label.Text = MoneyAmount
+	label.Text = formatRupiah(MoneyAmount)
 end)
 	
 
